@@ -42,12 +42,12 @@ The environment is considered solved, when the average (over 100 episodes) of th
 
     - **_Version 2: Twenty (20) Agents_**
 
-[this link](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P2/Reacher/Reacher_Linux_NoVis.zip) (version 2).  we will **not** be able to watch the agent without enabling a virtual screen, but that'show we trained the agent.  (_To watch the agent, you should follow the instructions to [enable a virtual screen](https://github.com/Unity-Technologies/ml-agents/blob/master/docs/Training-on-Amazon-Web-Service.md), and then download the environment for the **Linux** operating system above._)
+[this link](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P2/Reacher/Reacher_Linux_NoVis.zip) (version 2).  Bear in mind that you will **not** be able to watch the agent without enabling a virtual screen, but you can train the agent.  (_To watch the agent, you should follow the instructions to [enable a virtual screen](https://github.com/Unity-Technologies/ml-agents/blob/master/docs/Training-on-Amazon-Web-Service.md), and then download the environment for the **Linux** operating system above._)
 
 2. We have placed the file in the DRLND GitHub repository, in the `p2_continuous-control/` folder, and unzipped (or decompressed) the file. 
 
 ### Instructions
 
-Please check out `Continuous_Control.ipynb` to see how we solved the environment. Beyond the jupyter notebookfile you can also find a complete description of the project in `Report.html`file.   
+Please check out `Continuous_Control.ipynb` to see how we solved the environment. Beyond the jupyter notebook file, you can also find a complete description of the project in `Report.html`file.   
 
 
