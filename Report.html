@@ -1,0 +1,25 @@
+<h2 id="problem">Problem</h2>
+<p>In this environment, a double-jointed arm can move to target locations. A reward of +0.1 is provided for each step that the agent's hand is in the goal location. Thus, the goal of the agent is to maintain its position at the target location for as many time steps as possible.</p>
+<p>The observation space consists of 33 variables corresponding to position, rotation, velocity, and angular velocities of the arm. Each action is a vector with four numbers, corresponding to torque applicable to two joints. Every entry in the action vector should be a number between -1 and 1.</p>
+<p>We chose to use the second version of the environment which contains contains 20 identical agents, each with its own copy of the environment.</p>
+<h2 id="benchmark-take-a-random-action">Benchmark: take a random action</h2>
+<p>As part of project, we tried to solve the environemnt just by taking a random action. Although naive this is de-facto an initial benchmarking exercise. See the results <img src="/home/matteojohnston/deep-reinforcement-learning/p2_continuous-control/Random%20action.png" alt="Random action" /> It is clear that we need to do a little more in order to solve the problem.</p>
+<h2 id="methodology">Methodology</h2>
+<p>After some research (see the suggesting readings: <a href="https://arxiv.org/pdf/1604.06778.pdf"><em>Benchmarking Deep Reinforcement Learning for Continuous Control</em></a>, <a href="https://arxiv.org/pdf/1509.02971.pdf"><em>Continuous Control with Deep Reinforcement Learning</em></a>) we decided in favor of using a DDPG algorithm (Deep Deterministic Policy Gradients) on the 20 agents of the Reacher environment. At its core, DDPG is a policy gradient algorithm that uses a stochastic behavior policy for good exploration but estimates a deterministic target policy, which is much easier to learn. Policy gradient algorithms utilize a form of policy iteration: they evaluate the policy, and then follow the policy gradient to maximize performance. Since DDPG is off-policy and uses a deterministic target policy, this allows for the use of the Deterministic Policy Gradient theorem For more information read <a href="https://pemami4911.github.io/blog/2016/08/21/ddpg-rl.html">here</a>.</p>
+<p>Our code base has been built upon the udacity repository with only slight modifications, please find it here: <a href="https://github.com/udacity/deep-reinforcement-learning/blob/master/ddpg-bipedal/DDPG.ipynb">Udacity DRL <code>ddpg-bipedal</code> notebook</a></p>
+<h2 id="implementation">Implementation</h2>
+<p>Our architecture, which is quite standard, have 2 networks with the following structures and hyperameters:</p>
+<ul>
+<li>Actor: 256 -&gt; 256</li>
+<li>Critic: 256 -&gt; 256 -&gt; 128</li>
+</ul>
+<p>Hyperparameters:</p>
+<p>BUFFER_SIZE = int(1e6) # replay buffer size BATCH_SIZE = 64 # minibatch size GAMMA = 0.99 # discount factor TAU = 1e-3 # for soft update of target parameters LR_ACTOR = 1e-4 # learning rate of the actor LR_CRITIC = 3e-4 # learning rate of the critic WEIGHT_DECAY = 0.0001 # L2 weight decay</p>
+<h2 id="results">Results</h2>
+<p>We were able to solve task in 190 episodes with an average score of 30.04. <img src="/home/matteojohnston/deep-reinforcement-learning/p2_continuous-control/Final%20results.png" alt="Final results" /></p>
+<h2 id="further-enhancements">Further Enhancements</h2>
+<ul>
+<li>We haven't really changed the network structure much from our original code base. Hence we believe we could improve results revisiting the structures for example: adding layers / units per layers and netwok architectures...</li>
+<li>Trying also different hypermaters</li>
+<li>As discussed in the benchmarking paper other model such as PPO, D3PG or D4PG and many others can probably produce better results. Hence it could be a worthwhile avenue of further research</li>
+</ul>
