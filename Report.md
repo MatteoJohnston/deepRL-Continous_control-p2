@@ -39,11 +39,11 @@ There are two closely related processess:
 The power behind "Actor-critic methods" is that they combine these two approaches in order to accelerate the learning process. Actor-critic agents are generally also more stable than value-based agents, while requiring fewer training samples than policy-based agents.
 
 The image belowe shows a general graphical representation of actor-critic methods:
- ![Actor-critic architecture](https://github.com/MatteoJohnston/deepRL-Continous_control-p2/Actor-critic architecture.png)
+ <img src="actor-critic architecture.png" align="bottom-left" alt="" title="architecture" />
 
 ## Actor-Critic models
 
-You can find actor-critic logic implemented here as part the `Agent()` class in `ddpg_agent.py` of the source code <img src="actor_critic network.svg" align="bottom-left" alt="" title="actor_critic" />. 
+You can find actor-critic logic implemented here as part the `Agent()` class in `ddpg_agent.py` of the source code <img src="actor_critic network.png" align="bottom-left" alt="" title="actor_critic" />. 
 Please find the source code [here](https://github.com/MatteoJohnston/deepRL-Continous_control-p2/blob/master/ddpg_agent.py#L44).
 
 Note: As we did with Double Q-Learning in the last project, we're again leveraging local and target networks to improve stability. This is where one set of parameters w is used to select the best action, and another set of parameters w' is used to evaluate that action. In this project, local and target networks are implemented separately for both the actor and the critic.
@@ -93,14 +93,14 @@ Please find their respective implementations: [epsilon](https://github.com/Matte
 
 
 
-##Learning Interval
+## Learning Interval
 We implemented an interval in which the learning step is performed which is equalto 20 timesteps in this instance. As part of each learning step, the algorithm samples experiences from the buffer and runs the method 10 times.
 
-LEARN_EVERY = 20        # learning timestep interval
-LEARN_NUM = 10          # number of learning passes
+LEARN_EVERY = 20 learning timestep interval
+LEARN_NUM = 10 number of learning passes
 
 
-##Learning stability: gradient clipping and batch normalisation
+## Learning stability: gradient clipping and batch normalisation
 
 We implemented gradient clipping set it at 1, therefore placing an upper limit on the size of the parameter updates, and preventing them from growing exponentially. Gradient clipping has been explained during the coursework and documented in the papers quoted as well. It was also present in the base code we used. We didn't try to change this hyperparameter. You can find its implementation [here](https://github.com/MatteoJohnston/deepRL-Continous_control-p2/blob/master/ddpg_agent.py#L110). 
 
@@ -108,7 +108,7 @@ Along with this, we implemented batch normalization achieving higher model stabi
 
 In principle we could have applied to every other layer beyond the first one but it would have slowed the learning time. Both those features are essential for solving this challenging environment.
 
-##Experience Replay
+## Experience Replay
 
 Learning from past experiences is an essential part reinforcemtn learning. As with DQN in the previous project, DDPG also utilizes a replay buffer to gather experiences from each agent. Each experience is stored in a replay buffer as the agent interacts with the environment. In this project, there is one central replay buffer utilized by all 20 agents, therefore allowing agents to learn from each others' experiences.
 
@@ -121,7 +121,7 @@ Please find its implemantation [here](https://github.com/MatteoJohnston/deepRL-C
 ## Results 
 
 We were able to solve task in 1 episodes with an average score of 30.03.
-<img src="Final results.svg" align="bottom-left" alt="" title="Final results" />.
+<img src="Final results.png" align="bottom-left" alt="" title="Final results" />.
 
 
 
