@@ -7,7 +7,7 @@ We chose to use the second version of the environment which contains contains 20
 
 ## Benchmark: take a random action
 As part of project, we tried to solve the environemnt just by taking a random action (randomly distributed). Although naive this is de-facto an initial benchmarking exercise. 
-See the results [Random action](https://github.com/MatteoJohnston/deepRL-Continous_control-p2/blob/master/Random action.png)
+See the results <img src="Random action.png" align="bottom-left" alt="" title="Random action" />
 It is clear that we need to do a little more in order to solve the problem.
 
 ## "Know thyself": which algorithm to use
@@ -15,7 +15,7 @@ Before delving into the core of exercise, there is one main outstanding question
 
 Realising which algorithm to use before dealing with the numberscan save a lot of time. This is why theory is so important. Fot this of problems, it is better to use a **policy-based method** rather than a **value-based method** (as we did in our earlier project).
 
-Policy-based methods are **well suited for continuos spaces**, hence they will be very useful in this context. Furthermore, differently from the value-based methods, they can learn also **stochasic policies** rather than just deterministic. Finally they can directly learn the optimal policy ![pi star](https://github.com/MatteoJohnston/deepRL-Continous_control-p2/pi_star.png) without having to maintain a separate value function estimate. Intuititevly we can see how this can be a main advantage of the method both from a theorethical standpoint as well computational. Within the value-based methods, the agent uses its experience with the environment to maintain an estimate of the optimal action-value function, from which an optimal policy is derived. The computational cost for maintaining this estimate of the optimal action-value function can soon become expensive.
+Policy-based methods are **well suited for continuos spaces**, hence they will be very useful in this context. Furthermore, differently from the value-based methods, they can learn also **stochasic policies** rather than just deterministic. Finally they can directly learn the optimal policy <img src="pi_star.png" align="bottom-left" alt="" title="pi_star" /> without having to maintain a separate value function estimate. Intuititevly we can see how this can be a main advantage of the method both from a theorethical standpoint as well computational. Within the value-based methods, the agent uses its experience with the environment to maintain an estimate of the optimal action-value function, from which an optimal policy is derived. The computational cost for maintaining this estimate of the optimal action-value function can soon become expensive.
 
 
 
@@ -43,8 +43,8 @@ The image belowe shows a general graphical representation of actor-critic method
 
 ## Actor-Critic models
 
-You can find actor-critic logic implemented here as part the `Agent()` class in `ddpg_agent.py` of the source code ![Actor-critic network](https://github.com/MatteoJohnston/deepRL-Continous_control-p2/actor_critic network.png). 
-Please find the source code [here](https://github.com/MatteoJohnston/deepRL-Continous_control-p2/ddpg_agent.py#L44).
+You can find actor-critic logic implemented here as part the `Agent()` class in `ddpg_agent.py` of the source code <img src="actor_critic network.svg" align="bottom-left" alt="" title="actor_critic" />. 
+Please find the source code [here](https://github.com/MatteoJohnston/deepRL-Continous_control-p2/blob/master/ddpg_agent.py#L44).
 
 Note: As we did with Double Q-Learning in the last project, we're again leveraging local and target networks to improve stability. This is where one set of parameters w is used to select the best action, and another set of parameters w' is used to evaluate that action. In this project, local and target networks are implemented separately for both the actor and the critic.
  
@@ -52,7 +52,7 @@ Note: As we did with Double Q-Learning in the last project, we're again leveragi
 ## Network architecture 
 
 
-You can find both the `Actor()` and the `Critic()` class in `model.py`. Please find the source code [here](https://github.com/MatteoJohnston/deepRL-Continous_control-p2/model.py#L1). 
+You can find both the `Actor()` and the `Critic()` class in `model.py`. Please find the source code [here](https://github.com/MatteoJohnston/deepRL-Continous_control-p2/blob/master/model.py#L1). 
 Our architecture, which is quite standard, have 2 networks with the following structures and hyperameters (layers and number of units per layers):
 
 - Actor: 258 -> 258
@@ -67,7 +67,7 @@ A major challenge of learning in continuous action spaces is exploration. An adv
 
 where N can be chosen to suit the environment.
 
-You can find the Ornstein-Uhlenbeck process implemented `OUNoise()` class in `ddpg_agent()` of the source code. Please find the source code [here](https://github.com/MatteoJohnston/deepRL-Continous_control-p2/ddpg_agent.py#L143).
+You can find the Ornstein-Uhlenbeck process implemented `OUNoise()` class in `ddpg_agent()` of the source code. Please find the source code [here](https://github.com/MatteoJohnston/deepRL-Continous_control-p2/blob/master/ddpg_agent.py#L143).
 
 
 The Ornstein-Uhlenbeck process itself has three hyperparameters that determine the noise characteristics and magnitude:
@@ -89,7 +89,7 @@ For more information please read here.
 
 Again even in this case we didn't have too much to experiment on those parameters so we just used the ones above. However we found that adding the espilon and epsilon decay hyperparameters massively improved the performance of our agents.
 
-Please find their respective implementations: [epsilon](https://github.com/MatteoJohnston/deepRL-Continous_control-p2/ddpg_agent.py#L79) and [epsilon decay](https://github.com/MatteoJohnston/deepRL-Continous_control-p2/ddpg_agent.py#L127)  
+Please find their respective implementations: [epsilon](https://github.com/MatteoJohnston/deepRL-Continous_control-p2/blob/master/ddpg_agent.py#L79) and [epsilon decay](https://github.com/MatteoJohnston/deepRL-Continous_control-p2/blob/master/ddpg_agent.py#L127)  
 
 
 
@@ -102,9 +102,9 @@ LEARN_NUM = 10          # number of learning passes
 
 ##Learning stability: gradient clipping and batch normalisation
 
-We implemented gradient clipping set it at 1, therefore placing an upper limit on the size of the parameter updates, and preventing them from growing exponentially. Gradient clipping has been explained during the coursework and documented in the papers quoted as well. It was also present in the base code we used. We didn't try to change this hyperparameter. You can find its implementation [here](https://github.com/MatteoJohnston/deepRL-Continous_control-p2/ddpg_agent.py#L110). 
+We implemented gradient clipping set it at 1, therefore placing an upper limit on the size of the parameter updates, and preventing them from growing exponentially. Gradient clipping has been explained during the coursework and documented in the papers quoted as well. It was also present in the base code we used. We didn't try to change this hyperparameter. You can find its implementation [here](https://github.com/MatteoJohnston/deepRL-Continous_control-p2/blob/master/ddpg_agent.py#L110). 
 
-Along with this, we implemented batch normalization achieving higher model stability after a certain number of episodes and rapidity. We added it both for the [actor](https://github.com/MatteoJohnston/deepRL-Continous_control-p2/model.py#L31) and for the [critic](https://github.com/MatteoJohnston/deepRL-Continous_control-p2/model.py#L67).
+Along with this, we implemented batch normalization achieving higher model stability after a certain number of episodes and rapidity. We added it both for the [actor](https://github.com/MatteoJohnston/deepRL-Continous_control-p2/blob/master/model.py#L31) and for the [critic](https://github.com/MatteoJohnston/deepRL-Continous_control-p2/blob/master/model.py#L67).
 
 In principle we could have applied to every other layer beyond the first one but it would have slowed the learning time. Both those features are essential for solving this challenging environment.
 
@@ -114,14 +114,14 @@ Learning from past experiences is an essential part reinforcemtn learning. As wi
 
 The replay buffer contains a collection of experience tuples with the state, action, reward, and next state (s, a, r, s'). Each agent samples from this buffer as part of the learning step. Experiences are sampled randomly, so that the data is uncorrelated. This prevents action values from oscillating or diverging catastrophically, since a naive algorithm could otherwise become biased by correlations between sequential experience tuples.
 
-Please find its implemantation [here](https://github.com/MatteoJohnston/deepRL-Continous_control-p2/ddpg_agent.py#L172).
+Please find its implemantation [here](https://github.com/MatteoJohnston/deepRL-Continous_control-p2/blob/master/ddpg_agent.py#L172).
 
  
 
 ## Results 
 
 We were able to solve task in 1 episodes with an average score of 30.03.
-![Final results](/home/matteojohnston/deep-reinforcement-learning/p2_continuous-control/Final results.png)
+<img src="Final results.svg" align="bottom-left" alt="" title="Final results" />.
 
 
 
