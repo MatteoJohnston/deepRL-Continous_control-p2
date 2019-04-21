@@ -7,7 +7,7 @@ We chose to use the second version of the environment which contains contains 20
 
 ## Benchmark: take a random action
 As part of project, we tried to solve the environemnt just by taking a random action (randomly distributed). Although naive this is de-facto an initial benchmarking exercise. 
-See the results ![Random action](https://github.com/MatteoJohnston/deepRL-Continous_control-p2/blob/master/Random action.png)
+See the results [Random action](https://github.com/MatteoJohnston/deepRL-Continous_control-p2/blob/master/Random action.png)
 It is clear that we need to do a little more in order to solve the problem.
 
 ## "Know thyself": which algorithm to use
