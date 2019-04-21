@@ -15,7 +15,7 @@ Before delving into the core of exercise, there is one main outstanding question
 
 Realising which algorithm to use before dealing with the numberscan save a lot of time. This is why theory is so important. Fot this of problems, it is better to use a **policy-based method** rather than a **value-based method** (as we did in our earlier project).
 
-Policy-based methods are **well suited for continuos spaces**, hence they will be very useful in this context. Furthermore, differently from the value-based methods, they can learn also **stochasic policies** rather than just deterministic. Finally they can directly learn the optimal policy <img src="pi_star.png" align="bottom-left" alt="" title="pi_star" /> without having to maintain a separate value function estimate. Intuititevly we can see how this can be a main advantage of the method both from a theorethical standpoint as well computational. Within the value-based methods, the agent uses its experience with the environment to maintain an estimate of the optimal action-value function, from which an optimal policy is derived. The computational cost for maintaining this estimate of the optimal action-value function can soon become expensive.
+Policy-based methods are **well suited for continuos spaces**, hence they will be very useful in this context. Furthermore, differently from the value-based methods, they can learn also **stochasic policies** rather than just deterministic. Finally they can directly learn the optimal policy <img src="pi_star.png" align="bottom-left" alt="" title="pi_star" /> without having to maintain a separate value function estimate. Intuititevely we can see how this can be a main advantage of the method both from a theorethical standpoint as well computational. Within the value-based methods, the agent uses its experience with the environment to maintain an estimate of the optimal action-value function, from which an optimal policy is derived. The computational cost for maintaining this estimate of the optimal action-value function can soon become expensive.
 
 
 
@@ -32,14 +32,14 @@ At its core, DDPG is a policy gradient algorithm that uses a stochastic behavior
 [ddpg-repo]: https://github.com/udacity/deep-reinforcement-learning/blob/master/ddpg-bipedal/DDPG.ipynb
 [ddpg-blog]: https://pemami4911.github.io/blog/2016/08/21/ddpg-rl.html
 
-The algorithm we lives under the umbrella of the so called "actor-critic methods" which, in a nutshell, they implement a "generalised policy iteration" alternating between a policy evaluation and a policy improvement step.
+The algorithm, we used, lives under the umbrella of the so called "actor-critic methods" which means that they implement a "generalised policy iteration" alternating between a policy evaluation and a policy improvement step.
 There are two closely related processess:
 - actor improvement which aims at improving the current policy: the main task of the agent (actor) is to learn how to act by directly estimating the optimal policy and maximizing rewards;
 - critic evaluation which evaluates the current policy: via a value-based approach, the agent (critic) learns how to estimate the value (i.e., the future cumulative reward) of different state-action pairs. 
 The power behind "Actor-critic methods" is that they combine these two approaches in order to accelerate the learning process. Actor-critic agents are generally also more stable than value-based agents, while requiring fewer training samples than policy-based agents.
 
 The image belowe shows a general graphical representation of actor-critic methods:
- <img src="actor-critic architecture.png" align="bottom-left" alt="" title="architecture" />
+ <img src="Actor-critic architecture.png" align="bottom-left" alt="" title="architecture" />
 
 ## Actor-Critic models
 
@@ -53,15 +53,15 @@ Note: As we did with Double Q-Learning in the last project, we're again leveragi
 
 
 You can find both the `Actor()` and the `Critic()` class in `model.py`. Please find the source code [here](https://github.com/MatteoJohnston/deepRL-Continous_control-p2/blob/master/model.py#L1). 
-Our architecture, which is quite standard, have 2 networks with the following structures and hyperameters (layers and number of units per layers):
+Our architecture, which is quite standard, have 2 networks with the following structures and hyperameters (layers and number of units per layer):
 
 - Actor: 258 -> 258
 - Critic: 258 -> 258 -> 126
 
-Although we tested smaller and bigger networks we realised that just augmenting the networks size might not have been enough, so we kept the structure unchanged from our base code in the Udacity repository.
+Although we tested smaller and bigger networks, we realised that just augmenting the network size might not have been enough, so we kept the structure almost unchanged from our base code in the Udacity repository.
 
 ## Exploration vs Explotation
-A major challenge of learning in continuous action spaces is exploration. An advantage of off-policies algorithms such as DDPG is that we can treat the problem of exploration independently from the learning algorithm. As suggested from the Deep Mind paper ([_Continuous Control with Deep Reinforcement Learning_][ddpg-paper]) and from Udacity lessons, a suitable random process to use is the Ornstein-Uhlenbeck process which adds a certain amount of noise to the action values at each timestep. This noise is correlated to previous noise, and therefore tends to stay in the same direction for longer durations without canceling itself out. This allows the arm to maintain velocity and explore the action space with more continuity. Therefore an exploration policy µ is constructed by adding noise sampled from a noise process N to our actor policy
+A major challenge of learning in continuous action spaces is exploration. An advantage of off-policies algorithms such as DDPG is that we can treat the problem of exploration independently from the learning algorithm. As suggested from the Deep Mind paper ([_Continuous Control with Deep Reinforcement Learning_][ddpg-paper]) and from Udacity lessons, a suitable random process to use is the Ornstein-Uhlenbeck process which adds a certain amount of noise to the action values at each time step. This noise is correlated to previous noise, and therefore tends to stay in the same direction for longer durations without canceling itself out. This allows the arm to maintain velocity and explore the action space with more continuity. Therefore an exploration policy µ is constructed by adding noise sampled from a noise process N to our actor policy
 
 µ(st) = µ(st|θµt) + N
 
@@ -84,17 +84,18 @@ epsilon_decay: the speed of mean reversion --> 1e-6
 
 This decay mechanism ensures that more noise is introduced earlier in the training process (i.e., higher exploration), and the noise decreases over time as the agent gains more experience (i.e., higher exploitation).
 
-For more information please read here.
-[ddpg-blog]: http://reinforce.io/blog/introduction-to-tensorforce/
+For more information please read in this [blog][tensorflow-blog].
 
-Again even in this case we didn't have too much to experiment on those parameters so we just used the ones above. However we found that adding the espilon and epsilon decay hyperparameters massively improved the performance of our agents.
+[tensorflow-blog]: http://reinforce.io/blog/introduction-to-tensorforce/
+
+We found however that adding the espilon and epsilon decay hyperparameters massively improved the performance of our agents.
 
 Please find their respective implementations: [epsilon](https://github.com/MatteoJohnston/deepRL-Continous_control-p2/blob/master/ddpg_agent.py#L79) and [epsilon decay](https://github.com/MatteoJohnston/deepRL-Continous_control-p2/blob/master/ddpg_agent.py#L127)  
 
 
 
 ## Learning Interval
-We implemented an interval in which the learning step is performed which is equalto 20 timesteps in this instance. As part of each learning step, the algorithm samples experiences from the buffer and runs the method 10 times.
+We implemented an interval in which the learning step is performed which is equalto 20 time steps in this instance. As part of each learning step, the algorithm samples experiences from the buffer and runs the method 10 times.
 
 LEARN_EVERY = 20 learning timestep interval
 LEARN_NUM = 10 number of learning passes
@@ -102,11 +103,12 @@ LEARN_NUM = 10 number of learning passes
 
 ## Learning stability: gradient clipping and batch normalisation
 
-We implemented gradient clipping set it at 1, therefore placing an upper limit on the size of the parameter updates, and preventing them from growing exponentially. Gradient clipping has been explained during the coursework and documented in the papers quoted as well. It was also present in the base code we used. We didn't try to change this hyperparameter. You can find its implementation [here](https://github.com/MatteoJohnston/deepRL-Continous_control-p2/blob/master/ddpg_agent.py#L110). 
+We implemented gradient clipping set it at 1, therefore placing an upper limit on the size of the parameter updates, and preventing them from growing exponentially. Gradient clipping has been explained during the coursework as well as being documented in the papers quoted. It was also present in the base code we used. 
+You can find its implementation [here](https://github.com/MatteoJohnston/deepRL-Continous_control-p2/blob/master/ddpg_agent.py#L110). 
 
 Along with this, we implemented batch normalization achieving higher model stability after a certain number of episodes and rapidity. We added it both for the [actor](https://github.com/MatteoJohnston/deepRL-Continous_control-p2/blob/master/model.py#L31) and for the [critic](https://github.com/MatteoJohnston/deepRL-Continous_control-p2/blob/master/model.py#L67).
 
-In principle we could have applied to every other layer beyond the first one but it would have slowed the learning time. Both those features are essential for solving this challenging environment.
+In principle we could have applied to every other layer beyond the first one but it would have slowed the learning time down. Both those features are key for solving well this challenging problem.
 
 ## Experience Replay
 
@@ -128,5 +130,6 @@ We were able to solve task in 1 episodes with an average score of 30.03.
 ## Further Enhancements
 
 - As discussed in the benchmarking paper other model such as PPO, D3PG or D4PG and many others can probably produce better results. Hence it could be a worthwhile avenue of further research
+- Hyperparameters testing
 
 
