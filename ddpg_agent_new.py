@@ -1,3 +1,4 @@
+
 import numpy as np
 import random
 import copy
@@ -10,18 +11,20 @@ import torch.nn.functional as F
 import torch.optim as optim
 
 BUFFER_SIZE = int(1e6)  # replay buffer size
-BATCH_SIZE = 128        # minibatch size
-GAMMA = 0.99            # discount factor
-TAU = 1e-3              # for soft update of target parameters
-LR_ACTOR = 1e-3         # learning rate of the actor
-LR_CRITIC = 1e-3        # learning rate of the critic
-WEIGHT_DECAY = 0        # L2 weight decay
-LEARN_EVERY = 20        # learning timestep interval
-LEARN_NUM = 10          # number of learning passes
-OU_SIGMA = 0.2          # Ornstein-Uhlenbeck noise parameter
-OU_THETA = 0.15         # Ornstein-Uhlenbeck noise parameter
-EPSILON = 1.0           # explore->exploit noise process added to act step
-EPSILON_DECAY = 1e-6    # decay rate for noise process
+BATCH_SIZE = 128  # minibatch size
+GAMMA = 0.99  # discount factor
+TAU = 1e-3  # for soft update of target parameters
+LR_ACTOR = 1e-3  # learning rate of the actor
+LR_CRITIC = 1e-3  # learning rate of the critic
+WEIGHT_DECAY = 0  # L2 weight decay
+LEARN_EVERY = 20  # learning timestep interval
+LEARN_NUM = 10  # number of learning passes
+OU_SIGMA = 0.2  # Ornstein-Uhlenbeck noise parameter
+OU_THETA = 0.15  # Ornstein-Uhlenbeck noise parameter
+EPSILON = 1.0  # explore->exploit noise process added to act step
+EPSILON_DECAY = 1e-6  # decay rate for noise process
+
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 
 class Agent():
@@ -29,7 +32,6 @@ class Agent():
 
     def __init__(self, state_size, action_size, random_seed):
         """Initialize an Agent object.
-
         Params
         ======
             state_size (int): dimension of each state
@@ -137,7 +139,7 @@ class Agent():
             tau (float): interpolation parameter
         """
         for target_param, local_param in zip(target_model.parameters(), local_model.parameters()):
-            target_param.data.copy_(tau*local_param.data + (1.0-tau)*target_param.data)
+            target_param.data.copy_(tau * local_param.data + (1.0 - tau) * target_param.data)
 
 
 class OUNoise:
@@ -197,11 +199,14 @@ class ReplayBuffer:
         states = torch.from_numpy(np.vstack([e.state for e in experiences if e is not None])).float().to(device)
         actions = torch.from_numpy(np.vstack([e.action for e in experiences if e is not None])).float().to(device)
         rewards = torch.from_numpy(np.vstack([e.reward for e in experiences if e is not None])).float().to(device)
-        next_states = torch.from_numpy(np.vstack([e.next_state for e in experiences if e is not None])).float().to(device)
-        dones = torch.from_numpy(np.vstack([e.done for e in experiences if e is not None]).astype(np.uint8)).float().to(device)
+        next_states = torch.from_numpy(np.vstack([e.next_state for e in experiences if e is not None])).float().to(
+            device)
+        dones = torch.from_numpy(np.vstack([e.done for e in experiences if e is not None]).astype(np.uint8)).float().to(
+            device)
 
         return (states, actions, rewards, next_states, dones)
 
     def __len__(self):
         """Return the current size of internal memory."""
         return len(self.memory)
+
